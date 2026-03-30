@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Explore the stunning beauty and rich culture of Papua New Guinea. Discover hidden gems, breathtaking landscapes, and unforgettable adventures.">
+  <title>Papua New Guinea Tourism - Discover Paradise</title>
+  <style>
+    :root{
+      --bg1:#0f172a;
+      --bg2:#0b1020;
+      --accent:#000000;
+      --radius:20px;
+      --max-width:1600px;
+    }
+    *{box-sizing:border-box}
+    html{font-size:20px}
+    html,body{height:auto}
+    body{
+      margin:0;
+      font-family: 'Inter', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('img119.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color:#000000;
+      animation: none;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:100vh;
+    }
+    
+    .top-nav{
+      width:100%;
+      background:#ffffff;
+      border-bottom:1px solid #e0e0e0;
+      padding:16px 24px;
+      display:flex;
+      gap:32px;
+      justify-content:flex-start;
+      align-items:center;
+      position:relative;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .nav-center{
+      flex:1;
+      display:flex;
+      gap:32px;
+      justify-content:center;
+    }
+    
+    .search-bar{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-left:auto;
+    }
+    
+    .search-bar input{
+      padding:8px 12px;
+      border:1px solid #ccc;
+      border-radius:4px;
+      font-size:0.95rem;
+      width:200px;
+      transition:border-color .2s ease;
+    }
+    
+    .search-bar input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 2px rgba(37,99,235,0.1);
+    }
+    
+    .search-bar button{
+      padding:8px 16px;
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      border-radius:4px;
+      cursor:pointer;
+      font-weight:700;
+      transition:background .2s ease;
+    }
+    
+    .search-bar button:hover{
+      background:#1d4ed8;
+    }
+    
+    .nav-item{
+      position:relative;
+      display:flex;
+      align-items:center;
+    }
+    
+    .nav-item > a{
+      text-decoration:none;
+      color:#000000;
+      font-weight:700;
+      font-size:1rem;
+      cursor:pointer;
+      transition:color .2s ease;
+      padding:8px 12px;
+      border-radius:4px;
+    }
+    
+    .nav-item > a:hover{
+      color:var(--accent);
+    }
+    
+    .nav-item.active > a{
+      background:#e8f1f8;
+      color:var(--accent);
+    }
+    
+    .page{
+      display:none;
+    }
+    
+    .page.active{
+      display:block;
+    }
+    
+    .main-container{
+      padding:48px 24px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      flex:1;
+      width:100%;
+    }
+    
+    .header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+    .logo{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;color:#ffffff;font-weight:700;font-size:1.2rem;}
+    .header .photo{width:200px;height:200px;margin:0;flex-shrink:0;object-fit:cover;border-radius:10px}
+    h1{margin:0;font-size:clamp(1.6rem,3vw,2.6rem);letter-spacing:0.6px}
+    .description{margin:8px 0 20px 0;color:#cfe9f8;opacity:0.95;font-size:1rem;line-height:1.3}
+
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:12px}
+
+    /* layout for sidebar + main content */
+    .layout{display:flex;gap:24px}
+    .sidebar{flex:0 0 250px;display:none}
+    .content{flex:1}
+    .card{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:0;border-radius:var(--radius);transition: all 0.3s ease;border:1px solid rgba(255,255,255,0.04);overflow:hidden}
+    .card:hover{transform: translateY(-6px) scale(1.01);box-shadow: 0 18px 40px rgba(2,6,23,0.6)}
+    /* larger card images */
+    .photo{width:100%;height:360px;object-fit:cover;display:block;margin:0;filter:contrast(1.02) saturate(1.08);transition:filter .3s ease, transform .3s ease}
+    /* Card headings/subtitles: centered and uniform for all cards */
+    /* slightly smaller titles/subtitles so images read as larger */
+    .place-title{margin:0;font-weight:700;font-size:1.35rem;padding:12px 16px 0 16px;text-align:center}
+    .place-sub{margin:4px 0 0 0;color:#9ecbe7;font-size:1rem;padding:6px 16px 12px 16px;text-align:center}
+    /* Also apply to any h3/p inside .card so malformed tags still become uniform */
+    .card h3{margin:0;font-weight:700;font-size:1.35rem;padding:12px 16px 0 16px;text-align:center}
+    .card p{margin:4px 0 12px 0;color:#000000;font-size:1rem;padding:0 16px;text-align:center} /* PNG text black */
+    .photo:hover{transform:scale(1.02);filter:brightness(1.03) saturate(1.08)}
+
+    .places{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+    .places strong{font-size:1.05rem}
+    .places .place-item > div > div{font-size:0.98rem}
+    .place-item{display:flex;gap:12px;align-items:flex-start}
+    .index{color:#000000;font-weight:700;min-width:28px;height:28px;display:inline-grid;place-items:center;background:linear-gradient(180deg, rgba(125,211,252,0.12), rgba(96,165,250,0.08));border-radius:8px}
+
+    /* places list dropdown details */
+    .place-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    /* sidebar dropdown details */
+    .sidebar-info details{margin-bottom:8px;}
+    /* allow open home section by default */
+    #home[open] .home-content{display:block;}
+    .sidebar-info summary{cursor:pointer; font-weight:700; padding:4px;}
+    .sidebar-info details[open] summary{color:var(--accent);}
+
+    /* home details extras */
+    .home-content{padding:6px 0;}
+    .home-content .photo{width:100%;height:auto;border-radius:6px;margin-bottom:8px;}
+    .search-form{display:flex;gap:4px;margin:8px 0;}
+    .search-form input[type=search]{flex:1;padding:4px 8px;border:1px solid #ccc;border-radius:4px;}
+    .search-form button{padding:4px 10px;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:4px;cursor:pointer;}
+    .toggle-details{background:transparent;border:0;color:#000000;font-size:1.02rem;padding:6px 8px;border-radius:6px;cursor:pointer} /* arrow black */
+    .toggle-details:focus{outline:2px solid rgba(125,211,252,0.2);outline-offset:2px}
+    .details{overflow:hidden;max-height:0;transition:max-height .28s ease,padding .28s ease;color:#cfe9f8}
+    .details.open{padding:8px 0 12px 0;max-height:240px}
+    .details p{margin:0;font-size:0.95rem;color:#0d0d0e}
+
+    @media (max-width:420px){
+      /* mobile: keep images larger but proportional */
+      .photo{height:0px}
+      .header .photo{width:140px;height:140px}
+      html{font-size:16px}
+      .main-container{padding:18px}
+
+      h1{font-size:1.6rem}
+      .place-title{font-size:1.15rem}
+      .place-sub{font-size:0.95rem}
+
+      /* responsive adjustments */
+      .grid{grid-template-columns:1fr}
+      .layout{flex-direction:column}
+      .places{grid-template-columns:1fr}
+      
+      .top-nav{
+        gap:16px;
+        flex-wrap:wrap;
+      }
+      
+      .nav-center{
+        flex-basis:100%;
+        justify-content:flex-start;
+      }
+      
+      .search-bar{
+        flex-basis:100%;
+      }
+      
+      .search-bar input{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav class="top-nav">
+  <div class="nav-center">
+    <div class="nav-item active" data-page="home">
+      <a href="#home">Home</a>
+    </div>
+    <div class="nav-item" data-page="about">
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-item" data-page="map">
+      <a href="#map">Map</a>
+    </div>
+  </div>
+  <div class="search-bar">
+    <input type="search" placeholder="Search places…" id="search-input" aria-label="Search places">
+    <button id="search-btn">Search</button>
+  </div>
+</nav>
+<div class="main-container">
+<main class="container">
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+    <div class="layout">
+    <div class="content">
+    <div class="header">
+  
+      <img src="img1.jpg" class="photo">
+      <div>
+        <h1>Papua New Guinea</h1>
+        <p>PNG Horizons</p>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(15,23,42,0.9)); margin: 40px 0; border-radius: var(--radius); position: relative; overflow: hidden;">
+      <div style="position: relative; z-index: 2;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Discover Paradise Untouched</h2>
+        <p style="font-size: 1.15rem; margin-bottom: 20px; color: #ffdce3; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;">“Discover horizons beyond boundaries — a space where ideas, inspiration, and exploration meet. Our website is designed to be your gateway to knowledge, creativity, and endless possibilities.”</p>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; color: #e0e7ff; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+          Experience the world's last frontier - where ancient cultures meet pristine wilderness. From vibrant coral reefs to misty highlands, PNG offers adventures that will change your perspective forever.
+        </p>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+          <button style="padding: 15px 30px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37,99,235,0.3);" onclick="document.querySelector('.nav-item[data-page=map] a').click();">Explore Destinations</button>
+          <button style="padding: 15px 30px; background: transparent; color: white; border: 2px solid white; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onclick="document.querySelector('.nav-item[data-page=about] a').click();">Learn More</button>
+        </div>
+      </div>
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('img119.jpg') center/cover; opacity: 0.3; z-index: 1;"></div>
+    </div>
+
+<div>
+<h2>Highlands Region</h2>
+<div class="grid">
+<article class="card">
+<img src="img119.jpg" class="photo">
+<h3>Simbu Province</h3>
+<p>Mount Giluwe</p>
+</article>
+<article class="card">
+<img src="img155.jpg" class="photo">
+<h3>Eastern Highlands Province</h3>
+<p>Kunai houses.</p>
+</article>
+<article class="card">
+<img src="img123.jpg" class="photo">
+<h3>Enga Province</h3>
+<p>Lye River</p>
+</article>
+<article class="card">
+<img src="img106.jpg" class="photo">
+<h3>Hela Province</h3>
+<p></p>
+</article>
+<article class="card">
+<img src="img126.jpg" class="photo">
+<h3>Jiwaka Province</h3>
+<p>Komblo Waterfall</p>
+</article>
+<article class="card">
+<img src="img137.jpg" class="photo">
+<h3>Southern Highlands Province</h3>
+<p>Lake Kutubu</p>
+</article>
+<article class="card">
+<img src="img136.jpg" class="photo">
+<h3>Western Highlands Province</h3>
+<p>PNG</p>
+</article>
+</div>
+<h2>Islands Region</h2>
+<div class="grid">
+<article class="card">
+<img src="img102.jpg" class="photo">
+<h3>Manus Province</h3>
+<p>PNG</p>
+</article>
+<article class="card">
+<img src="img120.jpg" class="photo">
+<h3>New Ireland Province</h3>
+<p>Belifu Canyon</p>
+</article>
+<article class="card">
+<img src="img114.jpg" class="photo">
+<h3>East New Britain Province</h3>
+<p>Doy Island</p>
+</article>
+<article class="card">
+<img src="img117.jpg" class="photo">
+<h3>West New Britain Province</h3>
+<p>Oil Palm</p>
+</article>
+<article class="card">
+<img src="img118.jpg" class="photo">
+<h3>Autonomous Region of Bougainville</h3>
+<p>Living Root Bridge.</p>
+</article>
+</div>
+<h2>Momase Region</h2>
+<div class="grid">
+<article class="card">
+<img src="img101.jpg" class="photo">
+<h3>Madang Province</h3>
+<p>Balek Beach</p>
+</article>
+<article class="card">
+<img src="img3.jpg" class="photo">
+<h3>Morobe Province</h3>
+<p>Butaweng waterfalls</p>
+</article>
+<article class="card">
+<img src="img134.jpg" class="photo">
+<h3>Oro Province</h3>
+<p>Tufi Dive</p>
+</article>
+<article class="card">
+<img src="img128.jpg" class="photo">
+<h3>East Sepik Province</h3>
+<p>Wom Beach</p>
+</article>
+<article class="card">
+<img src="img115.jpg" class="photo">
+<h3>West Sepik Province</h3>
+<p>Awawi Falls</p>
+</article>
+</div>
+<h2>Southern Region</h2>
+<div class="grid">
+<article class="card">
+<img src="img138.jpg" class="photo">
+<h3>Central Province</h3>
+<p>Rouna Falls</p>
+</article>
+<article class="card">
+<img src="img 130.jpg" class="photo">
+<h3>Gulf Province</h3>
+<p>Orokolo Bay</p>
+</article>
+<article class="card">
+<img src="img131.jpg" class="photo">
+<h3>Milne Bay Province</h3>
+<p>Kwato island </p>
+</article>
+<article class="card">
+<img src="img135.jpg" class="photo">
+<h3>Western Province</h3>
+<p>Wawoi Falls</p>
+</article>
+</div>
+<h2>National Capital District</h2>
+<div class="grid">
+<article class="card">
+<img src="img129.jpg" class="photo">
+<h3>National Capital District</h3>
+<p>Port Moresby City</p>
+</article>
+</div>
+</div>
+
+     
+    </section>
+    </div>
+    </div>
+
+    <!-- TESTIMONIALS SECTION -->
+    <div style="margin-top: 60px; padding: 40px 20px; background: linear-gradient(135deg, rgba(15,23,42,0.05), rgba(30,41,59,0.05)); border-radius: var(--radius);">
+      <h2 style="text-align: center; margin-bottom: 40px; color: var(--accent);">What Travelers Say</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+        <div style="background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
+          <p style="font-style: italic; margin-bottom: 20px; color: #374151;">"Papua New Guinea is a hidden paradise. The landscapes are breathtaking, and the people are incredibly welcoming. My trek through the highlands was life-changing!"</p>
+          <p style="font-weight: 600; color: var(--accent);">- Sarah Johnson, Australia</p>
+        </div>
+        <div style="background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
+          <p style="font-style: italic; margin-bottom: 20px; color: #374151;">"Diving in Milne Bay was incredible. Crystal clear waters and vibrant marine life. PNG has some of the best untouched diving spots in the world."</p>
+          <p style="font-weight: 600; color: var(--accent);">- Michael Chen, USA</p>
+        </div>
+        <div style="background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
+          <p style="font-style: italic; margin-bottom: 20px; color: #374151;">"The cultural festivals are mesmerizing. Experiencing traditional dances and ceremonies gave me a deep appreciation for PNG's rich heritage."</p>
+          <p style="font-weight: 600; color: var(--accent);">- Emma Rodriguez, Spain</p>
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- END HOME PAGE -->
+
+<!-- ABOUT PAGE -->
+<div id="about" class="page">
+  <div class="layout">
+    <div class="content">
+      <div class="header">
+        <div>
+          <h1>Why Papua New Guinea?</h1>
+          <p>Discover the untouched paradise that awaits the adventurous traveler</p>
+        </div>
+      </div>
+      <div style="max-width:900px;margin-top:32px;line-height:1.7;">
+        <div style="background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(96,165,250,0.05)); padding: 30px; border-radius: var(--radius); margin-bottom: 40px;">
+          <h2 style="color: var(--accent); margin-bottom: 20px;">🌟 Your Adventure Begins Here</h2>
+          <p style="font-size: 1.1rem; margin-bottom: 20px;">Imagine stepping into a world where ancient traditions meet pristine wilderness. Papua New Guinea isn't just a destination—it's a journey that will transform your perspective on travel, culture, and natural beauty.</p>
+          <p>From the mist-shrouded peaks of the highlands to the crystal-clear waters of Milne Bay, PNG offers experiences that few places on Earth can match. Here, you'll discover:</p>
+          <ul style="margin: 20px 0; padding-left: 20px;">
+            <li style="margin-bottom: 10px;"><strong>800+ Indigenous Cultures:</strong> Each with unique languages, customs, and traditions</li>
+            <li style="margin-bottom: 10px;"><strong>Unparalleled Biodiversity:</strong> Home to species found nowhere else</li>
+            <li style="margin-bottom: 10px;"><strong>World-Class Adventures:</strong> Trekking, diving, cultural immersion</li>
+            <li style="margin-bottom: 10px;"><strong>Authentic Experiences:</strong> Connect with local communities sustainably</li>
+          </ul>
+        </div>
+        
+        <h2 style="color: var(--accent); margin-top: 50px;">🏔️ Geography & Landscapes</h2>
+        <p>Papua New Guinea occupies the eastern half of the island of New Guinea, sharing the world's second-largest island with Indonesia. The terrain is a dramatic tapestry of rugged mountains, dense rainforests, and pristine coastlines. The Central Range, with peaks reaching over 4,000 meters, creates natural barriers that have preserved unique ecosystems and cultures for millennia.</p>
+        
+        <h2 style="color: var(--accent); margin-top: 40px;">🎭 Culture & Heritage</h2>
+        <p>With over 800 languages spoken across the country, PNG is a living museum of human diversity. Each tribe maintains ancient customs, from intricate tribal ceremonies to traditional navigation techniques passed down through generations. Visitors are welcomed into this rich tapestry with genuine hospitality and respect for cultural exchange.</p>
+        
+        <h3 style="color: var(--accent); margin-top: 30px;">Sustainable Tourism Commitment</h3>
+        <p>PNG is committed to responsible tourism that benefits both visitors and local communities. Conservation efforts focus on protecting fragile ecosystems while creating economic opportunities through community-based tourism initiatives. When you visit PNG, you're not just a tourist—you're part of a movement to preserve paradise.</p>
+        
+        <div style="background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(22,163,74,0.1)); padding: 25px; border-radius: var(--radius); margin: 40px 0; border-left: 4px solid #22c55e;">
+          <h4 style="color: #16a34a; margin-bottom: 15px;">✨ Did You Know?</h4>
+          <p style="margin: 0; color: #374151;">Papua New Guinea is home to the world's largest butterfly, the Queen Alexandra's birdwing, with a wingspan of up to 28 centimeters. It's just one example of the incredible biodiversity that makes PNG so special.</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px; padding: 30px; background: linear-gradient(135deg, var(--accent), #1d4ed8); border-radius: var(--radius); color: white;">
+          <h3 style="margin-bottom: 20px;">Ready to Experience PNG?</h3>
+          <p style="margin-bottom: 25px; opacity: 0.9;">Your adventure of a lifetime awaits. Let us help you plan the perfect journey.</p>
+          <button style="padding: 15px 30px; background: white; color: var(--accent); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onclick="document.getElementById('map').classList.add('active'); document.querySelector('[data-page=map]').click();">Start Planning Your Trip</button>
+        </div>  
+
+        <!-- HIGHLIGHTS SECTION -->
+        <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(96,165,250,0.1)); border-radius: var(--radius);">
+          <h3 style="text-align: center; margin-bottom: 30px; color: var(--accent);">Why Choose Papua New Guinea?</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; margin-bottom: 10px;">🌿</div>
+              <h4 style="color: var(--accent); margin-bottom: 10px;">Biodiversity Hotspot</h4>
+              <p>Home to thousands of unique species found nowhere else on Earth.</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; margin-bottom: 10px;">🏔️</div>
+              <h4 style="color: var(--accent); margin-bottom: 10px;">Stunning Landscapes</h4>
+              <p>From rugged mountains to pristine beaches, diverse terrains await.</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; margin-bottom: 10px;">🎭</div>
+              <h4 style="color: var(--accent); margin-bottom: 10px;">Rich Culture</h4>
+              <p>800+ languages and vibrant traditions that celebrate heritage.</p>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; margin-bottom: 10px;">🤿</div>
+              <h4 style="color: var(--accent); margin-bottom: 10px;">Adventure Activities</h4>
+              <p>Diving, trekking, and cultural immersion for every traveler.</p>
+            </div>
+          </div>
+        </div>
+      
+        </div>
+    </div>
+
+  </div>
+</div>
+<!-- END ABOUT PAGE -->
+
+<!-- MAP PAGE -->
+<div id="map" class="page">
+  <div class="layout">
+    <div class="content">
+      <h1>Map of Papua New Guinea</h1>
+      <p>Explore the location of the various provinces and natural wonders featured on our homepage.</p>
+      <div style="width:100%;height:850px;margin:40px auto;max-width:1400px;padding:0 24px;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3987506.6454895424!2d143.95555!3d-6.314993!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2spg!4v1742947200000!5m2!1sen!2spg" width="100%" height="100%" style="border:0;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.15);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div style="max-width:1100px;margin:0 auto; padding:24px; background: rgba(255,255,255,0.95); border-radius: 14px; border:1px solid #d1d5db; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+        <h2 style="margin-top:0; color:#1e40af;">Featured Location Pins</h2>
+        <p>Quick access to every travel location featured in the homepage cards:</p>
+        <ul style="padding-left:18px; color:#0f172a; line-height:1.7;">
+          <li><strong>Simbu Province</strong> (Mount Giluwe) – 6.8036° S, 144.0796° E. <a href="https://www.google.com/maps/search/?api=1&query=Mount+Giluwe" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Eastern Highlands Province</strong> (Kunai houses) – 6.0815° S, 145.3890° E. <a href="https://www.google.com/maps/search/?api=1&query=Kunai+Houses" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Enga Province</strong> (Lye River) – 5.3979° S, 143.7897° E. <a href="https://www.google.com/maps/search/?api=1&query=Lye+River+PNG" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Hela Province</strong> – 6.0609° S, 143.6500° E. <a href="https://www.google.com/maps/search/?api=1&query=Hela+Province" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Jiwaka Province</strong> (Komblo Waterfall) – 5.7944° S, 144.5598° E. <a href="https://www.google.com/maps/search/?api=1&query=Komblo+Waterfall" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Southern Highlands Province</strong> (Lake Kutubu) – 6.0464° S, 143.1844° E. <a href="https://www.google.com/maps/search/?api=1&query=Lake+Kutubu" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Western Highlands Province</strong> (Western Highlands) – 5.8614° S, 144.2561° E. <a href="https://www.google.com/maps/search/?api=1&query=Western+Highlands+Province" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Manus Province</strong> – 2.0616° S, 147.4118° E. <a href="https://www.google.com/maps/search/?api=1&query=Manus+Province" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>New Ireland Province</strong> (Belifu Canyon) – 3.8761° S, 152.5026° E. <a href="https://www.google.com/maps/search/?api=1&query=Belifu+Canyon" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>East New Britain Province</strong> (Doy Island) – 4.3378° S, 152.4142° E. <a href="https://www.google.com/maps/search/?api=1&query=Doy+Island" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>West New Britain Province</strong> (Oil Palm area) – 5.5212° S, 150.7293° E. <a href="https://www.google.com/maps/search/?api=1&query=West+New+Britain+Province" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Bougainville</strong> (Living Root Bridge) – 6.2057° S, 155.5200° E. <a href="https://www.google.com/maps/search/?api=1&query=Living+Root+Bridge+Bougainville" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Madang Province</strong> (Balek Beach) – 5.2206° S, 145.7891° E. <a href="https://www.google.com/maps/search/?api=1&query=Balek+Beach" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Morobe Province</strong> (Butaweng waterfalls) – 7.1624° S, 146.7784° E. <a href="https://www.google.com/maps/search/?api=1&query=Butaweng+waterfalls" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Oro Province</strong> (Tufi Dive) – 9.0000° S, 149.8000° E. <a href="https://www.google.com/maps/search/?api=1&query=Tufi" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>East Sepik Province</strong> (Wom Beach) – 3.1950° S, 143.6268° E. <a href="https://www.google.com/maps/search/?api=1&query=Wom+Beach" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>West Sepik Province</strong> (Awawi Falls) – 3.5167° S, 141.2500° E. <a href="https://www.google.com/maps/search/?api=1&query=Awawi+Falls" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Central Province</strong> (Rouna Falls) – 9.6020° S, 147.1540° E. <a href="https://www.google.com/maps/search/?api=1&query=Rouna+Falls" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Gulf Province</strong> (Orokolo Bay) – 8.4077° S, 145.5234° E. <a href="https://www.google.com/maps/search/?api=1&query=Orokolo+Bay" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>Milne Bay Province</strong> (Kwato Island) – 10.3167° S, 150.4227° E. <a href="https://www.google.com/maps/search/?api=1&query=Kwato+Island" target="_blank" rel="noreferrer">Open map</a></li>
+          <li><strong>National Capital District</strong> (Port Moresby City) – 9.4438° S, 147.1803° E. <a href="https://www.google.com/maps/search/?api=1&query=Port+Moresby" target="_blank" rel="noreferrer">Open map</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- END MAPS PAGE -->
+
+</main>
+</div>
+
+  <script>
+  // Page navigation
+  (function(){
+    var navItems = document.querySelectorAll('.nav-item');
+    var pages = document.querySelectorAll('.page');
+    
+    navItems.forEach(function(item) {
+      var link = item.querySelector('a');
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var pageName = item.getAttribute('data-page');
+        
+        // Hide all pages and deactivate all nav items
+        pages.forEach(function(page) {
+          page.classList.remove('active');
+        });
+        navItems.forEach(function(navItem) {
+          navItem.classList.remove('active');
+        });
+        
+        // Show selected page and activate nav item
+        document.getElementById(pageName).classList.add('active');
+        item.classList.add('active');
+      });
+    });
+  })();
+
+  // Search functionality
+  (function(){
+    var searchInput = document.getElementById('search-input');
+    var searchBtn = document.getElementById('search-btn');
+    var cards = document.querySelectorAll('.grid .card');
+    
+    function performSearch(){
+      var query = searchInput.value.toLowerCase();
+      
+      cards.forEach(function(card) {
+        var title = card.querySelector('h3').textContent.toLowerCase();
+        if (query === '' || title.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+    
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+    
+    searchInput.addEventListener('input', performSearch);
+  })();
+
+  // Dropdown controller for places list — accessible toggles
+  (function(){
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function openDetails(btn, details){
+      btn.setAttribute('aria-expanded','true');
+      details.hidden = false;
+      // trigger transition by forcing computed height if not reduced motion
+      if (!prefersReduced){
+        details.classList.add('open');
+      }
+    }
+    function closeDetails(btn, details){
+      btn.setAttribute('aria-expanded','false');
+      if (!prefersReduced){
+        details.classList.remove('open');
+        // after transition end, set hidden to true
+        var onEnd = function(){ details.hidden = true; details.removeEventListener('transitionend', onEnd); };
+        details.addEventListener('transitionend', onEnd);
+      } else {
+        details.hidden = true;
+      }
+    }
+
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest && e.target.closest('.toggle-details');
+      if (!btn) return;
+      var id = btn.getAttribute('aria-controls');
+      var details = document.getElementById(id);
+      if (!details) return;
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      if (expanded) closeDetails(btn, details); else openDetails(btn, details);
+    });
+
+    // keyboard: Enter/Space on button handled by default; ESC closes all
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' || e.key === 'Esc'){
+        document.querySelectorAll('.toggle-details[aria-expanded="true"]').forEach(function(b){
+          var id = b.getAttribute('aria-controls');
+          var d = document.getElementById(id);
+          if (d) closeDetails(b,d);
+        });
+      }
+    });
+  })();
+
+  // simple search implementation for cards and list
+  (function(){
+    var form = document.querySelector('.search-form');
+    if (!form) return;
+    var cards = Array.from(document.querySelectorAll('.grid .card'));
+    var listItems = Array.from(document.querySelectorAll('.places .place-item'));
+    function filter(query){
+      var q = query.trim().toLowerCase();
+      cards.forEach(function(card){
+        var text = card.textContent.toLowerCase();
+        card.style.display = q && text.indexOf(q) === -1 ? 'none' : '';
+      });
+      listItems.forEach(function(li){
+        var text = li.textContent.toLowerCase();
+        li.style.display = q && text.indexOf(q) === -1 ? 'none' : '';
+      });
+    }
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = form.querySelector('input[type=search]');
+      if (input) filter(input.value);
+    });
+    // live filtering while typing
+    var input = form.querySelector('input[type=search]');
+    if (input){
+      input.addEventListener('input', function(){ filter(input.value); });
+    }
+  })();
+  </script>
+
+  <footer style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #ffffff; padding: 40px 20px; text-align: center; margin-top: auto; box-shadow: 0 -4px 12px rgba(0,0,0,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <p style="margin: 0; opacity: 0.7;">&copy; 2026 Papua New Guinea Tourism. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body></html>
